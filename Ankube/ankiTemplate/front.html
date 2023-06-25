@@ -1,0 +1,68 @@
+<!--
+  Disclaimer!
+  The creator of Roofpig, aka the alg visualizer, is not me 
+  I just integrated Roofpig with anki, so all the credit 
+  should go to the creator of Roofpig Larspetrus.
+ Visit their GitHub page to view the original visualizer and info on how to customize
+  https://github.com/larspetrus/Roofpig
+-->
+
+{{Case}}
+<br />
+
+<div id="image">{{Image}}</div>
+<div id="algorithm" , style="display: none">{{Algorithm}}</div>
+<div id="container"></div>
+
+<script>
+  // not displaying alg visualizer if there is an image
+  if (document.getElementById("image").innerHTML.trim() == "") {
+    // reading algorithm field
+    var algorithm = document.getElementById("algorithm").innerText;
+
+    // creating reversed algorithm
+    var reverseAlg = [];
+    var splittedAlg = algorithm.split(" ");
+    var element;
+
+    for (i = 0; i < splittedAlg.length; i++) {
+      element = splittedAlg[i];
+      element = element.trim();
+      if (element.length == 1) {
+        reverseAlg.push(element + "'");
+      } else {
+        reverseAlg.push(element.replace("'", ""));
+      }
+    }
+
+    reverseAlg = reverseAlg.reverse().join(" ");
+
+    // reading background color
+    var backgroundColor = window.getComputedStyle(
+      document.querySelector("body")
+    )["background-color"];
+
+    // loading visualizer
+    var container = document.getElementById("container");
+    var iframe = document.createElement("iframe");
+
+    iframe.src =
+      // edit url below to custumize the cube
+      // add settings between "?config=" and "alg=" to customize the visualizer
+      // example "https://ankube-40718.web.app/?config=colors=U:w L:o F:g R:r B:b D:y|setupmoves="
+      //                                              /          added text           \
+      // note that you have to add | symbol between each settings
+      // see https://github.com/larspetrus/Roofpig for every setting available
+
+      "https://ankube-40718.web.app/?config=setupmoves=" +
+      algorithm +
+      "&bgcolor=" +
+      backgroundColor;
+    iframe.style.width = "250px";
+    iframe.style.height = "250px";
+    iframe.scrolling = "no";
+    iframe.frameBorder = 0;
+
+    container.appendChild(iframe);
+  }
+</script>
