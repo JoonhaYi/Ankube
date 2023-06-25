@@ -1,0 +1,47 @@
+<!--
+  Disclaimer!
+  The creator of Roofpig, aka the alg visualizer, is not me 
+  I just integrated Roofpig with anki, so all the credit 
+  should go to the creator of Roofpig Larspetrus.
+ Visit their GitHub page to view the original visualizer and info on how to customize
+  https://github.com/larspetrus/Roofpig
+-->
+
+{{Case}}
+
+<hr id="answer" />
+<div id="algorithm">{{Algorithm}}</div>
+<div id="container"></div>
+
+<script>
+  // reading algorithm field
+  var algorithm = document.getElementById("algorithm").innerText;
+
+  // reading background color
+  var backgroundColor = window.getComputedStyle(document.querySelector("body"))[
+    "background-color"
+  ];
+
+  // loading visualizer
+  var container = document.getElementById("container");
+  var iframe = document.createElement("iframe");
+
+  iframe.src =
+    // edit url below to custumize the cube
+    // add settings between "?config=" and "alg=" to customize the visualizer
+    // example "https://ankube-40718.web.app/?config=colors=U:w L:o F:g R:r B:b D:y|setupmoves="
+    //                                              /          added text           \
+    // note that you have to add | symbol between each settings
+    // see https://github.com/larspetrus/Roofpig for every setting available
+
+    "https://ankube-40718.web.app/?config=hover=1|speed=850|alg=" +
+    algorithm +
+    "&bgcolor=" +
+    backgroundColor;
+  iframe.style.width = "200px";
+  iframe.style.height = "300px";
+  iframe.scrolling = "no";
+  iframe.frameBorder = 0;
+
+  container.appendChild(iframe);
+</script>
