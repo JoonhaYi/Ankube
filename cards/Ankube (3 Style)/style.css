@@ -1,0 +1,17 @@
+.card {
+    font-family: arial;
+    font-size: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.front {
+	font-size: 40px;
+}
+
+#mnemonics {
+	font-family: monospace;
+	font-size: 15px;
+}

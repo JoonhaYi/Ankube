@@ -1,0 +1,103 @@
+<!--
+  Disclaimer!
+  The creator of Roofpig, aka the alg visualizer, is not me 
+  I just integrated Roofpig with anki, so all the credit 
+  should go  to the creator of Roofpig Larspetrus.
+  Visit their GitHub page to view the original visualizer and info on how to customize
+  https://github.com/larspetrus/Roofpig
+-->
+<div id="image">{{Image}}</div>
+<div id="algorithm" , style="display: none">{{Algorithm}}</div>
+<div id="container"></div>
+<button id="setupButton" style="display: none"></button>
+<br />
+<div id="setup" style="display: none">{{Setup}}</div>
+
+<script>
+  function reverseAlg(algorithm) {
+    algorithm = algorithm.trim().split(" ");
+    var reversedAlg = [];
+    var element;
+
+    for (i = 0; i < algorithm.length; i++) {
+      element = algorithm[i];
+      element = element.trim();
+      if (element.at(-1) == "'") {
+        // removing ' symbol if exists
+        element = element.replace("'", "");
+      } else if (/[A-Za-z]/.test(element.at(-1))) {
+        // adding ' symbol if not present already
+        element += "'";
+      }
+
+      reversedAlg.push(element);
+    }
+
+    // reversing the alg and joining it into a string
+    reversedAlg = reversedAlg.reverse().join(" ");
+    return reversedAlg;
+  }
+
+  // displaying the visualizer if the image field is empty
+  if (document.getElementById("image").innerHTML.trim() == "") {
+    var algorithm = document.getElementById("algorithm").innerText.trim();
+    var button = document.getElementById("setupButton");
+    var setupField = document.getElementById("setup");
+    var setupMoves = reverseAlg(algorithm);
+
+    // removing parentheses from the algorithm
+    algorithm = algorithm.replace(/[\(\)]/g, "");
+
+    // setting setup field to reversed algorithm if the setup field is empty
+    if (setupField.innerText.trim() == "") {
+      setupField.innerText = setupMoves;
+    }
+
+    // checking for commutator notation
+    if (!/[^\|]*[\[\]]/.test(setupField.innerText)) {
+      // displaying setup button
+      button.style.display = "initial";
+      button.innerText = "Show Setup";
+    }
+
+    button.onclick = function () {
+      if (setupField.style.display == "none") {
+        // displaying setup moves if the button is clicked
+        setupField.style.display = "initial";
+        button.innerText = "Hide Setup";
+      } else {
+        // hiding setup moves if the button is clicked again
+        setupField.style.display = "none";
+        button.innerText = "Show Setup";
+      }
+    };
+
+    // reading background color
+    var backgroundColor = window.getComputedStyle(
+      document.querySelector("body")
+    )["background-color"];
+
+    // loading visualizer
+    var container = document.getElementById("container");
+    var iframe = document.createElement("iframe");
+
+    iframe.src =
+      // edit the URL below to customize the cube
+      // add configurations after "?config=” to customize the visualizer
+      // example "https://ankube-40718.web.app/?config=colors=U:w L:o F:g R:r B:b D:y|setupmoves="
+      //                                              / 	         added text         \
+      // note that you have to add | symbol between each settings
+      // see https://github.com/larspetrus/Roofpig for every setting available
+
+      "https://ankube-40718.web.app/?config=setupmoves=" +
+      setupMoves +
+      "&bgcolor=" +
+      backgroundColor;
+
+    iframe.style.width = "300px";
+    iframe.style.height = "300px";
+    iframe.scrolling = "no";
+    iframe.frameBorder = 0;
+    container.appendChild(iframe);
+  }
+</script>

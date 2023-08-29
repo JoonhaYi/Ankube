@@ -1,26 +1,26 @@
 // declaring functions
 function reverseAlg(algorithm) {
-  var splittedAlg = algorithm.trim().split(" ");
-  var reverseAlg = [];
+  algorithm = algorithm.trim().split(" ");
+  var reversedAlg = [];
   var element;
 
-  for (i = 0; i < splittedAlg.length; i++) {
-    element = splittedAlg[i];
+  for (i = 0; i < algorithm.length; i++) {
+    element = algorithm[i];
     element = element.trim();
     if (element.at(-1) == "'") {
       // removing ' symbol if exists
       element = element.replace("'", "");
-    } else if (element.at(-1) != "2") {
+    } else if (/[A-Za-z]/.test(element.at(-1))) {
       // adding ' symbol if not present already
       element += "'";
     }
 
-    reverseAlg.push(element);
+    reversedAlg.push(element);
   }
 
   // reversing the alg and joining it into a string
-  reverseAlg = reverseAlg.reverse().join(" ");
-  return reverseAlg;
+  reversedAlg = reversedAlg.reverse().join(" ");
+  return reversedAlg;
 }
 
 function cancelMoves(algorithm) {
@@ -31,10 +31,10 @@ function cancelMoves(algorithm) {
   algorithm = algorithm.split(" ");
 
   for (i = 0; i < algorithm.length; i++) {
-    // reading move letter of the element
+    // reading the move letter of the element
     move = algorithm[i].match(/[A-Za-z]+?/)[0];
 
-    // reading move amount of the element
+    // reading the move amount of the element
     if (/[0-9']+?/.test(algorithm[i])) {
       amount = parseInt(algorithm[i].match(/[0-9']+?/)[0].replace("'", "-1"));
     } else {
@@ -62,14 +62,14 @@ function cancelMoves(algorithm) {
       i -= 1;
     }
 
-    // adding current element to prev
+    // adding the current element to prev
     prev.push({ move: move, amount: amount });
   }
 
   return algorithm.join(" ");
 }
 
-function parseCommutatorNotation(algorithm) {
+function parseCommutator(algorithm) {
   // converting commutator notations to regular notations
   var commutatorNotation = algorithm.match(/\[([^\[]*?)\]/)[1].trim();
   var commutator = commutatorNotation.split(",");
@@ -105,7 +105,7 @@ function getOppositeShade(color) {
     rgbSum += parseInt(element);
   });
 
-  // returning either black or white according to contrast
+  // returning either black or white according to the shade
   if (rgbSum < 382) {
     return "white";
   } else {
@@ -121,23 +121,21 @@ function loadVisualizer(config) {
   visualizer.classList.add("roofpig");
   visualizer.style.color = "green";
 
-  // setting data-config attribute of roofpig to data query from the url
+  // setting data-config attribute of roofpig to config
   visualizer.setAttribute("data-config", config);
   container.appendChild(visualizer);
 }
 
-// reading query string field of url
+// reading the query string field of the url
 const params = new URLSearchParams(document.location.search);
 var config = params.get("config");
 var bgcolor = params.get("bgcolor");
-
-console.log("Ankube: Loading...");
 
 // setting background color
 console.log("Ankube: Setting background color to: " + bgcolor);
 document.querySelector("body").style.backgroundColor = bgcolor;
 
-// setting font color according to background shade
+// setting font color according to the background shade
 if (/rgb\([0-9]+, [0-9]+, [0-9]+\)/.test(bgcolor)) {
   var style = document.createElement("style");
   style.innerHTML =
@@ -149,34 +147,42 @@ if (/rgb\([0-9]+, [0-9]+, [0-9]+\)/.test(bgcolor)) {
 
 // parsing commutator notations
 if (/(?:alg|setupmoves)=[^\|]*[\[\]]/.test(config)) {
-  var commutator = config.match(/(?:alg|setupmoves)=([^\|&]*)/)[1];
-  var algorithm = parseCommutatorNotation(commutator);
+  var commutator = config.match(/(?:alg|setupmoves)=([^\|]*)/)[1];
+
+  if (/\[.*\]/.test(commutator)) {
+    parsedCommutator = parseCommutator(commutator);
+  } else {
+    // reversing back the alorithm if it's reversed
+    parsedCommutator = parseCommutator(reverseAlg(commutator));
+
+    // reversing again to setup to the case
+    parsedCommutator = reverseAlg(parsedCommutator);
+  }
 
   console.log("Ankube: Commutator notation detected: " + commutator);
-  console.log("Ankube: Parsed commutator notation: " + algorithm);
+  console.log("Ankube: Parsed notation: " + parsedCommutator);
 
-  // setting replacing commutator notation with new notation
+  // replacing commutator notations with parsed algorithm
   if (/alg=[^\|]*[\[\]]/.test(config)) {
-    config = config.replaceAll("alg=" + commutator, "alg=" + algorithm);
+    config = config.replaceAll("alg=" + commutator, "alg=" + parsedCommutator);
   } else if (/setupmoves=[^\|]*[\[\]]/.test(config)) {
     config = config.replaceAll(
       "setupmoves=" + commutator,
-      "setupmoves=" + reverseAlg(algorithm)
+      "setupmoves=" + parsedCommutator
     );
   }
 }
 
 // loading roofpig
 console.log("Ankube: Loading roofpig, config: " + config);
-
 loadVisualizer(config);
 
 // playing the algorithm automatically
-var playButton = document.getElementById("play-1");
+setTimeout(function () {
+  var playButton = document.getElementById("play-1");
 
-if (playButton != null) {
-  setTimeout(function () {
+  if (playButton != null) {
     console.log("Ankube: Playing algorithm");
     document.getElementById("play-1").click();
-  }, 500);
-}
+  }
+}, 1000);

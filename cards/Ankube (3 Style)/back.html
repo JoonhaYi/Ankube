@@ -1,0 +1,49 @@
+<!--
+  Disclaimer!
+  The creator of Roofpig, aka the alg visualizer, is not me 
+  I just integrated Roofpig with anki, so all the credit 
+  should go to the creator of Roofpig Larspetrus.
+  Visit their GitHub page to view the original visualizer and info on how to customize
+  https://github.com/larspetrus/Roofpig
+-->
+
+{{FrontSide}}
+<div id="mnemonics">{{Mnemonics}}</div>
+<hr id="answer" />
+<div id="algorithm">{{Algorithm}}</div>
+<div id="container"></div>
+
+<script>
+  var algorithm = document.getElementById("algorithm").innerText.trim();
+
+  // removing parentheses from the algorithm
+  algorithm = algorithm.replace(/[\(\)]/g, "");
+
+  // reading background color
+  var backgroundColor = window.getComputedStyle(document.querySelector("body"))[
+    "background-color"
+  ];
+
+  // loading visualizer
+  var container = document.getElementById("container");
+  var iframe = document.createElement("iframe");
+
+  iframe.src =
+    // edit the URL below to customize the cube
+    // add configurations after "?config=” to customize the visualizer
+    // example "https://ankube-40718.web.app/?config=colors=U:w L:o F:g R:r B:b D:y|setupmoves="
+    //                                              / 	         added text         \
+    // note that you have to add | symbol between each settings
+    // see https://github.com/larspetrus/Roofpig for every setting available
+
+    "https://ankube-40718.web.app/?config=colors=U:w L:o F:g R:r B:b D:y|hover=1|speed=800|alg=" +
+    algorithm +
+    "&bgcolor=" +
+    backgroundColor;
+
+  iframe.style.width = "300px";
+  iframe.style.height = "330px";
+  iframe.scrolling = "no";
+  iframe.frameBorder = 0;
+  container.appendChild(iframe);
+</script>
