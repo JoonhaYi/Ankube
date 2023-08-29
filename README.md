@@ -2,7 +2,7 @@
 Ankube is an Anki card template made to help Cubers learn algorithms faster. Note that I’m not the creator of Roofpig, aka the algorithm visualizer; The credit goes to Larspetrus. For more info on customization and the inner workings of the library, please visit the original GitHub page: https://github.com/larspetrus/Roofpig 
 
 # How to use
-To import the card type, please download the demo deck from https://ankiweb.net/shared/mine](https://ankiweb.net/shared/info/2105155613?cb=1693334141457 and open the apkg file to import it;
+To import the card type, please download the demo deck either from GitHub or from https://ankiweb.net/shared/mine](https://ankiweb.net/shared/info/2105155613?cb=1693334141457 and open the apkg file to import it;
 You can delete the demo deck afterward.
 
 ![alt text](https://github.com/JoonhaYi/Ankube/blob/main/images/importing.png?raw=true)
