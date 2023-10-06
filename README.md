@@ -1,10 +1,10 @@
 # Ankube
-Ankube is an Anki card template made to help Cubers learn algorithms faster. Note that I’m not the creator of Roofpig, aka the algorithm visualizer; The credit goes to Larspetrus. For more info on customization and the inner workings of the library, please visit the original GitHub page: https://github.com/larspetrus/Roofpig 
+Ankube is an Anki note type made to help Cubers learn algorithms faster. Note that I’m not the creator of Roofpig, aka the algorithm visualizer; The credit goes to Larspetrus. For more info on customization and the inner workings of the library, please visit the original GitHub page: https://github.com/larspetrus/Roofpig 
 
 ![alt text](https://github.com/JoonhaYi/Ankube/blob/main/images/ankube.png?raw=true)
 
 # How to use
-To import the card type, please download the Demo.apkg and open it to import the deck to anki;
+To import the note type, please download the Demo.apkg and open it to import the deck to anki;
 You can delete the demo deck afterward.
 
 ![alt text](https://github.com/JoonhaYi/Ankube/blob/main/images/importing.png?raw=true)
