@@ -4,7 +4,7 @@ Ankube is an Anki note type made to help Cubers learn algorithms faster. Note th
 ![alt text](https://github.com/JoonhaYi/Ankube/blob/main/images/ankube.png?raw=true)
 
 # How to use
-To import the note type, please download the Demo.apkg and open it to import the deck to anki;
+To import the note type, please download Demo.apkg and open it to import the deck to anki;
 You can delete the demo deck afterward.
 
 ![alt text](https://github.com/JoonhaYi/Ankube/blob/main/images/importing.png?raw=true)
